@@ -1,0 +1,92 @@
+$fontstack: Arial, Helvetica, sans-serif;
+$brand-color: hsl(70, 100%, 40%);
+$brand-contrast-1: hsl(190, 100%, 40%);
+$brand-contrast-2: hsl(310, 100%, 40%);
+
+@import './reset.scss';
+
+@mixin selfColour ( $colour ) {
+  color: change-color($color: $colour, $lightness: 80%);
+  background-color: $colour;
+  transition: background-color 1s, color 1s;
+  &:hover {
+    color: change-color($color: $colour, $saturation: 50%);
+    background-color: change-color($color: $colour, $lightness: 60%);
+  }
+}
+
+%centred {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+body {
+  font-family: $fontstack;
+}
+
+header {
+  * {
+    @extend %centred;
+    max-width: 960px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 4em;
+  }
+}
+
+#summary {
+  font-size: 2em;
+}
+
+#drilldown {
+  display: flex;
+  flex-wrap: wrap;
+  h2 {
+    margin: 0;
+  }
+  article {
+    @extend %centred;
+    // display: block;
+  }
+}
+
+#control {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding-top: 1em;
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  
+}
+
+button {
+  @include selfColour( $brand-contrast-1 );
+  font-size: 1em;
+  margin-left: 0.5em;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  line-height: 1em;
+}
+
+.blob {
+  text-align: center;
+  padding: 0;
+  h2 {
+    padding: 0.5em 0;
+  }
+  .value {
+    @include selfColour( $brand-color );
+    @extend %centred;
+    border-radius: 50%;
+    font-size: 5em;
+    width: 2em;
+    height: 1.5em;
+    padding-top: 0.5em;
+  }
+}
