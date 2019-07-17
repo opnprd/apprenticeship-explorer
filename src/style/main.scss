@@ -1,8 +1,9 @@
-$fontstack: Arial, Helvetica, sans-serif;
+$fontstack: 'Poppins', sans-serif;
 $brand-color: hsl(70, 100%, 40%);
 $brand-contrast-1: hsl(190, 100%, 40%);
 $brand-contrast-2: hsl(310, 100%, 40%);
 
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap');
 @import './reset.scss';
 
 @mixin selfColour ( $colour ) {
@@ -43,8 +44,11 @@ header {
 #drilldown {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: bottom;
   h2 {
     margin: 0;
+    max-width: 10em;
   }
   article {
     @extend %centred;
