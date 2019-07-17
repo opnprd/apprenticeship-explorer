@@ -989,6 +989,8 @@
 	  }, {
 	    key: "render",
 	    value: function render() {
+	      var _this2 = this;
+
 	      var aggregator = this.props.aggregator;
 	      var _this$state = this.state,
 	          data = _this$state.data,
@@ -1026,7 +1028,29 @@
 	        id: "summary"
 	      }, React$1__default.createElement(Blob, {
 	        value: oneNumber
-	      })));
+	      })), React$1__default.createElement("section", {
+	        id: "control"
+	      }, React$1__default.createElement("p", null, "Show by:"), React$1__default.createElement("button", {
+	        onClick: function onClick() {
+	          return _this2.setDrill('SSA T1');
+	        }
+	      }, "Sector"), React$1__default.createElement("button", {
+	        onClick: function onClick() {
+	          return _this2.setDrill('LAD');
+	        }
+	      }, "Local Authority"), React$1__default.createElement("button", {
+	        onClick: function onClick() {
+	          return _this2.setDrill('Gender');
+	        }
+	      }, "Gender"), React$1__default.createElement("button", {
+	        onClick: function onClick() {
+	          return _this2.setDrill('Level');
+	        }
+	      }, "Level"), React$1__default.createElement("button", {
+	        onClick: function onClick() {
+	          return _this2.setDrill(null);
+	        }
+	      }, "Clear")), drillDown);
 	    }
 	  }, {
 	    key: "loadReport",

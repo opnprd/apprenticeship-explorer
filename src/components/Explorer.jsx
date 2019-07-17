@@ -51,13 +51,15 @@ export default class Explorer extends Component {
         <section id='summary'>
           <Blob value={ oneNumber } />
         </section>
-        {/* <section id='control'>
+        <section id='control'>
           <p>Show by:</p>
-          <button onClick={ () => this.setDrill('Local_Authority') }>Local Authority</button>
-          <button onClick={ () => this.setDrill('Company') }>Company</button>
+          <button onClick={ () => this.setDrill('SSA T1') }>Sector</button>
+          <button onClick={ () => this.setDrill('LAD') }>Local Authority</button>
+          <button onClick={ () => this.setDrill('Gender') }>Gender</button>
+          <button onClick={ () => this.setDrill('Level') }>Level</button>
           <button onClick={ () => this.setDrill(null) }>Clear</button>
         </section>
-        { drillDown } */}
+        { drillDown }
       </>;
   }
 
