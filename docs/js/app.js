@@ -945,7 +945,7 @@
 	  return _loadJson.apply(this, arguments);
 	}
 
-	var heading = "<h1 id=\"apprenticeship-explorer\">Apprenticeship Explorer</h1>\n";
+	var heading = "<h1 id=\"apprenticeship-explorer\">Apprenticeship Explorer</h1>\n<p>The <strong>Apprenticeship Explorer</strong> allows you to delve into the\n<a href=\"https://www.gov.uk/government/statistics/apprenticeships-and-traineeships-july-2019\">Apprenticeship data</a> published by The Department for Education. It&#39;s a work in progress at present, so <a href=\"https://github.com/opnprd/apprenticeship-explorer/issues/new\">feedback is welcomed</a> (free GitHub account required).</p>\n";
 
 	function onlyUnique(value, index, self) {
 	  return self.indexOf(value) === index;

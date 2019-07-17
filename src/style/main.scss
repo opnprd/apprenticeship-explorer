@@ -27,10 +27,11 @@ body {
 }
 
 header {
-  * {
+  p, h1 {
     @extend %centred;
     max-width: 960px;
     text-align: center;
+    padding-bottom: 0.3em;
   }
   h1 {
     font-size: 4em;
