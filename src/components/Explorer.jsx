@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Blob from './Blob.jsx';
 import Drilldown from './Drilldown.jsx';
 
-import loadCsv from '../utils/loadCsv.js';
+import loadJson from '../utils/loadJson.js';
 
 import heading from '../content/title.md';
 
@@ -62,7 +62,7 @@ export default class Explorer extends Component {
   }
 
   async loadReport() {
-    const data = await loadCsv({ url: this.props.url });
+    const data = await loadJson({ url: this.props.url });
     this.setState(() => ({ data }));
   }
 

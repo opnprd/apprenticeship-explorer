@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Explorer from './components/Explorer.jsx';
 
-const url = './reports.csv'
+const url = './report.json'
 
 import aggregator from './utils/aggregator.js';
 

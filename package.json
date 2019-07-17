@@ -19,6 +19,7 @@
     "rollup-plugin-scss": "^1.0.1"
   },
   "dependencies": {
+    "csv-parse": "^4.4.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }

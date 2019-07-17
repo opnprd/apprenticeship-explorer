@@ -914,40 +914,15 @@
 	  });
 	}
 
-	function _arrayWithHoles(arr) {
-	  if (Array.isArray(arr)) return arr;
+	function loadJson(_x) {
+	  return _loadJson.apply(this, arguments);
 	}
 
-	var arrayWithHoles = _arrayWithHoles;
-
-	function _iterableToArray(iter) {
-	  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-	}
-
-	var iterableToArray = _iterableToArray;
-
-	function _nonIterableRest() {
-	  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-	}
-
-	var nonIterableRest = _nonIterableRest;
-
-	function _toArray(arr) {
-	  return arrayWithHoles(arr) || iterableToArray(arr) || nonIterableRest();
-	}
-
-	var toArray = _toArray;
-
-	function loadCsv(_x) {
-	  return _loadCsv.apply(this, arguments);
-	}
-
-	function _loadCsv() {
-	  _loadCsv = asyncToGenerator(
+	function _loadJson() {
+	  _loadJson = asyncToGenerator(
 	  /*#__PURE__*/
 	  regenerator.mark(function _callee(_ref) {
-	    var url, response, text, _text$split$filter$ma, _text$split$filter$ma2, headings, rows, records;
-
+	    var url, response;
 	    return regenerator.wrap(function _callee$(_context) {
 	      while (1) {
 	        switch (_context.prev = _context.next) {
@@ -958,34 +933,16 @@
 
 	          case 3:
 	            response = _context.sent;
-	            _context.next = 6;
-	            return response.text();
+	            return _context.abrupt("return", response.json());
 
-	          case 6:
-	            text = _context.sent;
-	            _text$split$filter$ma = text.split('\n').filter(function (_) {
-	              return !_.match(/^\s*$/);
-	            }).map(function (_) {
-	              return _.split(',');
-	            }), _text$split$filter$ma2 = toArray(_text$split$filter$ma), headings = _text$split$filter$ma2[0], rows = _text$split$filter$ma2.slice(1);
-	            records = rows.reduce(function (acc, row) {
-	              var record = headings.reduce(function (rec, col, idx) {
-	                rec[col] = row[idx];
-	                return rec;
-	              }, {});
-	              acc.push(record);
-	              return acc;
-	            }, []);
-	            return _context.abrupt("return", records);
-
-	          case 10:
+	          case 5:
 	          case "end":
 	            return _context.stop();
 	        }
 	      }
 	    }, _callee);
 	  }));
-	  return _loadCsv.apply(this, arguments);
+	  return _loadJson.apply(this, arguments);
 	}
 
 	var heading = "<h1 id=\"apprenticeship-explorer\">Apprenticeship Explorer</h1>\n";
@@ -1083,7 +1040,7 @@
 	            switch (_context.prev = _context.next) {
 	              case 0:
 	                _context.next = 2;
-	                return loadCsv({
+	                return loadJson({
 	                  url: this.props.url
 	                });
 
@@ -1123,14 +1080,16 @@
 	  var data = _ref.data;
 	  if (data.length === 0) return;
 	  var sum = data.map(function (_) {
-	    return Number.parseFloat(_.Index);
+	    return Number.parseFloat(_['1718_Achievements']);
+	  }).filter(function (_) {
+	    return _;
 	  }).reduce(function (p, c) {
 	    return p + c;
 	  }, 0);
-	  return Math.round(sum / data.length);
+	  return sum;
 	}
 
-	var url = './reports.csv';
+	var url = './report.json';
 	function initialise() {
 	  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
 	      _ref$appRootId = _ref.appRootId,

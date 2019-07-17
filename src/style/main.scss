@@ -83,10 +83,10 @@ button {
   .value {
     @include selfColour( $brand-color );
     @extend %centred;
-    border-radius: 50%;
-    font-size: 5em;
-    width: 2em;
-    height: 1.5em;
-    padding-top: 0.5em;
+    border-radius: 1em 0.2em 1em;
+    font-size: 3em;
+    width: 4em;
+    height: 2em;
+    padding-top: 1em;
   }
 }

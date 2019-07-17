@@ -48,8 +48,8 @@ const jsPlugins = [
         dest: `${targetDir}/js/vendor`,
       },
       {
-        src: 'reports.csv',
-        dest: `${targetDir}`,
+        src: 'report.json',
+        dest: targetDir,
       },
     ],
   }),
