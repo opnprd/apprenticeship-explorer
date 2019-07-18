@@ -1220,17 +1220,45 @@
 	  return Explorer;
 	}(React$1.Component);
 
-	function aggregator(_ref) {
-	  var data = _ref.data;
-	  if (data.length === 0) return;
-	  var sum = data.map(function (_) {
-	    return Number.parseFloat(_['1718_Achievements']);
-	  }).filter(function (_) {
-	    return _;
-	  }).reduce(function (p, c) {
-	    return p + c;
+	function sumKeys(_ref) {
+	  var data = _ref.data,
+	      keys = _ref.keys;
+	  return keys.reduce(function (acc, key) {
+	    return acc + Number.parseFloat(data[key]);
 	  }, 0);
-	  return sum;
+	}
+	function aggregator(_ref2) {
+	  var data = _ref2.data;
+	  if (data.length === 0) return;
+	  var dataKeys = Object.keys(data[0]).filter(function (_) {
+	    return _.match(/\d{4}.*_(Starts|Achievements)/);
+	  });
+
+	  function summariser(acc, curr) {
+	    dataKeys.forEach(function (key) {
+	      if (!acc[key]) acc[key] = 0;
+	      acc[key] += Number.parseInt(curr[key]) || 0;
+	    });
+	    return acc;
+	  }
+
+	  var yearly = data.reduce(summariser, {});
+	  var starts = sumKeys({
+	    data: yearly,
+	    keys: ['1516_Starts', '1617_Starts', '1718_Starts']
+	  });
+	  var estimatedDropoutRate = sumKeys({
+	    data: yearly,
+	    keys: ['1617_Achievements', '1718_Achievements']
+	  }) / sumKeys({
+	    data: yearly,
+	    keys: ['1415_Starts', '1516_Starts']
+	  });
+	  console.dir({
+	    starts: starts,
+	    estimatedDropoutRate: estimatedDropoutRate
+	  });
+	  return Math.round(starts * estimatedDropoutRate);
 	}
 
 	var url = './report.json';
