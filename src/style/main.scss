@@ -22,7 +22,7 @@ $brand-contrast-2: hsl(310, 100%, 40%);
   margin-left: auto;
 }
 
-body {
+body, select {
   font-family: $fontstack;
 }
 
@@ -39,7 +39,18 @@ header {
 }
 
 #summary {
-  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  .blob {
+    font-size: 2em;
+  }
+}
+
+form {
+  label {
+    vertical-align: top;
+    padding-right: 1em;
+  }
 }
 
 #drilldown {

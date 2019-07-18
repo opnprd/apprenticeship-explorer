@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Filter from './filter.jsx';
 import Blob from './Blob.jsx';
 import Drilldown from './Drilldown.jsx';
 
@@ -15,29 +16,57 @@ function getDrillTexts({ drill, data }) {
   return data.map(_ => _[drill]).filter(onlyUnique)
 }
 
+function generateFilter({ filter, key }) {
+  return (record) => (filter && filter.length > 0) ? filter.includes(record[key]) : true;
+}
+
+function multiFilter (filters) {
+  return (record) => filters.reduce((accumulator, current) => (accumulator && current(record)), true);
+}
+
+function filterData({ state, data }) {
+  const filter = [
+    generateFilter({ filter: state.regionFilter, key: 'onsRegion' }),
+    generateFilter({ filter: state.sectorFilter, key: 'SSA T1' }),
+    generateFilter({ filter: state.genderFilter, key: 'Gender' }),
+  ]
+  return data.filter(multiFilter(filter));
+}
+
 export default class Explorer extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [], drill: null }
+    this.state = {
+      data: [],
+      filteredData: [],
+      drill: null,
+      regionFilter: [ 'E12000003' ],
+      sectorFilter: null,
+      genderFilter: null,
+    }
+    this.setFilter = this.setFilter.bind(this);
   }
 
   setDrill(drill) {
     this.setState(() => ({ drill }))
   }
 
+  setFilter(filterSpec) {
+    this.setState(() => filterSpec);
+    this.setState((state) => ({ filteredData: filterData({ state, data: state.data }) }));
+  }
+
   render() {
     const { aggregator } = this.props;
-    const { data, drill } = this.state;
-    const oneNumber = aggregator({ data });
+    const oneNumber = aggregator({ data: this.state.filteredData });
 
     let drillDown = null;
-    if (drill) {
-      const names = getDrillTexts({data, drill});
-      console.dir(names);
+    if (this.state.drill) {
+      const names = getDrillTexts({data: this.state.filteredData, drill: this.state.drill});
       const drills = names.map((drillName, i) => <Drilldown
         key={ i }
-        data={ data }
-        dimension={ drill }
+        data={ this.state.filteredData }
+        dimension={ this.state.drill }
         category={ drillName }
         aggregator={ aggregator }
       />)
@@ -50,6 +79,12 @@ export default class Explorer extends Component {
         <header dangerouslySetInnerHTML={{ __html: heading }} />
         <section id='summary'>
           <Blob value={ oneNumber } />
+          <Filter
+            selected={{
+              region: this.state.regionFilter,
+              sector: this.state.sectorFilter
+            }}
+            handler={ this.setFilter } />
         </section>
         <section id='control'>
           <p>Show by:</p>
@@ -65,7 +100,8 @@ export default class Explorer extends Component {
 
   async loadReport() {
     const data = await loadJson({ url: this.props.url });
-    this.setState(() => ({ data }));
+    const filteredData = filterData({ state: this.state, data });
+    this.setState(() => ({ data, filteredData }));
   }
 
   componentDidMount() {

@@ -883,6 +883,67 @@
 
 	var inherits = _inherits;
 
+	var Filter =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(Filter, _Component);
+
+	  function Filter(props) {
+	    var _this;
+
+	    classCallCheck(this, Filter);
+
+	    _this = possibleConstructorReturn(this, getPrototypeOf(Filter).call(this, props));
+	    _this.handleFilterChange = _this.handleFilterChange.bind(assertThisInitialized(_this));
+	    return _this;
+	  }
+
+	  createClass(Filter, [{
+	    key: "handleFilterChange",
+	    value: function handleFilterChange(e) {
+	      var newState = {};
+	      var newValue = Array.from(e.target.selectedOptions, function (option) {
+	        return option.value;
+	      });
+	      newState["".concat(e.target.name, "Filter")] = newValue;
+	      this.props.handler(newState);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return React$1__default.createElement("section", {
+	        id: "filter"
+	      }, React$1__default.createElement("h2", null, "Filter data"), React$1__default.createElement("form", null, React$1__default.createElement("label", {
+	        htmlFor: "region"
+	      }, "Region"), React$1__default.createElement("select", {
+	        name: "region",
+	        multiple: true,
+	        value: this.props.selected.region,
+	        onChange: this.handleFilterChange
+	      }, React$1__default.createElement("option", {
+	        value: "E12000001"
+	      }, "North East"), React$1__default.createElement("option", {
+	        value: "E12000002"
+	      }, "North West"), React$1__default.createElement("option", {
+	        value: "E12000003"
+	      }, "Yorkshire and The Humber")), React$1__default.createElement("label", {
+	        htmlFor: "region"
+	      }, "Sector"), React$1__default.createElement("select", {
+	        name: "sector",
+	        multiple: true,
+	        value: this.props.selected.sector,
+	        onChange: this.handleFilterChange
+	      }, React$1__default.createElement("option", {
+	        value: "Construction, Planning and the Built Environment"
+	      }, "Construction, Planning and the Built Environment"), React$1__default.createElement("option", {
+	        value: "Engineering and Manufacturing Technologies"
+	      }, "Engineering and Manufacturing Technologies"))));
+	    }
+	  }]);
+
+	  return Filter;
+	}(React$1.Component);
+
 	function BlobTitle(props) {
 	  if (!props.title) return null;
 	  return React.createElement("h2", null, props.title);
@@ -959,6 +1020,38 @@
 	  }).filter(onlyUnique);
 	}
 
+	function generateFilter(_ref2) {
+	  var filter = _ref2.filter,
+	      key = _ref2.key;
+	  return function (record) {
+	    return filter && filter.length > 0 ? filter.includes(record[key]) : true;
+	  };
+	}
+
+	function multiFilter(filters) {
+	  return function (record) {
+	    return filters.reduce(function (accumulator, current) {
+	      return accumulator && current(record);
+	    }, true);
+	  };
+	}
+
+	function filterData(_ref3) {
+	  var state = _ref3.state,
+	      data = _ref3.data;
+	  var filter = [generateFilter({
+	    filter: state.regionFilter,
+	    key: 'onsRegion'
+	  }), generateFilter({
+	    filter: state.sectorFilter,
+	    key: 'SSA T1'
+	  }), generateFilter({
+	    filter: state.genderFilter,
+	    key: 'Gender'
+	  })];
+	  return data.filter(multiFilter(filter));
+	}
+
 	var Explorer =
 	/*#__PURE__*/
 	function (_Component) {
@@ -972,8 +1065,13 @@
 	    _this = possibleConstructorReturn(this, getPrototypeOf(Explorer).call(this, props));
 	    _this.state = {
 	      data: [],
-	      drill: null
+	      filteredData: [],
+	      drill: null,
+	      regionFilter: ['E12000003'],
+	      sectorFilter: null,
+	      genderFilter: null
 	    };
+	    _this.setFilter = _this.setFilter.bind(assertThisInitialized(_this));
 	    return _this;
 	  }
 
@@ -987,30 +1085,41 @@
 	      });
 	    }
 	  }, {
+	    key: "setFilter",
+	    value: function setFilter(filterSpec) {
+	      this.setState(function () {
+	        return filterSpec;
+	      });
+	      this.setState(function (state) {
+	        return {
+	          filteredData: filterData({
+	            state: state,
+	            data: state.data
+	          })
+	        };
+	      });
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      var _this2 = this;
 
 	      var aggregator = this.props.aggregator;
-	      var _this$state = this.state,
-	          data = _this$state.data,
-	          drill = _this$state.drill;
 	      var oneNumber = aggregator({
-	        data: data
+	        data: this.state.filteredData
 	      });
 	      var drillDown = null;
 
-	      if (drill) {
+	      if (this.state.drill) {
 	        var names = getDrillTexts({
-	          data: data,
-	          drill: drill
+	          data: this.state.filteredData,
+	          drill: this.state.drill
 	        });
-	        console.dir(names);
 	        var drills = names.map(function (drillName, i) {
 	          return React$1__default.createElement(Drilldown, {
 	            key: i,
-	            data: data,
-	            dimension: drill,
+	            data: _this2.state.filteredData,
+	            dimension: _this2.state.drill,
 	            category: drillName,
 	            aggregator: aggregator
 	          });
@@ -1028,6 +1137,12 @@
 	        id: "summary"
 	      }, React$1__default.createElement(Blob, {
 	        value: oneNumber
+	      }), React$1__default.createElement(Filter, {
+	        selected: {
+	          region: this.state.regionFilter,
+	          sector: this.state.sectorFilter
+	        },
+	        handler: this.setFilter
 	      })), React$1__default.createElement("section", {
 	        id: "control"
 	      }, React$1__default.createElement("p", null, "Show by:"), React$1__default.createElement("button", {
@@ -1058,7 +1173,7 @@
 	      var _loadReport = asyncToGenerator(
 	      /*#__PURE__*/
 	      regenerator.mark(function _callee() {
-	        var data;
+	        var data, filteredData;
 	        return regenerator.wrap(function _callee$(_context) {
 	          while (1) {
 	            switch (_context.prev = _context.next) {
@@ -1070,13 +1185,18 @@
 
 	              case 2:
 	                data = _context.sent;
+	                filteredData = filterData({
+	                  state: this.state,
+	                  data: data
+	                });
 	                this.setState(function () {
 	                  return {
-	                    data: data
+	                    data: data,
+	                    filteredData: filteredData
 	                  };
 	                });
 
-	              case 4:
+	              case 5:
 	              case "end":
 	                return _context.stop();
 	            }

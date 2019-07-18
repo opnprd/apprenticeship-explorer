@@ -92,7 +92,6 @@ function geographize(data) {
 readCsv(apprenticeshipDataFile)
   .then(filter)
   .then(geographize)
-  .then(areaFilter)
   .then(clean)
   .then(writeJson(reportJson))
   .then(console.log)
