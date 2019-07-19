@@ -883,6 +883,41 @@
 
 	var inherits = _inherits;
 
+	var regions = [{
+	  name: 'North East',
+	  value: 'E12000001'
+	}, {
+	  name: 'North West',
+	  value: 'E12000002'
+	}, {
+	  name: 'Yorkshire and The Humber',
+	  value: 'E12000003'
+	}];
+	var sectors = [{
+	  name: 'Construction, Planning and the Built Environment',
+	  value: 'Construction, Planning and the Built Environment'
+	}, {
+	  name: 'Engineering and Manufacturing Technologies',
+	  value: 'Engineering and Manufacturing Technologies'
+	}];
+
+	function FilterBlock(props) {
+	  var options = props.options.map(function (_, i) {
+	    return React$1__default.createElement("option", {
+	      key: i,
+	      value: _.value
+	    }, _.name);
+	  });
+	  return React$1__default.createElement("fieldset", null, React$1__default.createElement("label", {
+	    htmlFor: props.name
+	  }, props.name), React$1__default.createElement("select", {
+	    name: props.name,
+	    multiple: true,
+	    value: props.value,
+	    onChange: props.handler
+	  }, options));
+	}
+
 	var Filter =
 	/*#__PURE__*/
 	function (_Component) {
@@ -900,44 +935,35 @@
 
 	  createClass(Filter, [{
 	    key: "handleFilterChange",
-	    value: function handleFilterChange(e) {
-	      var newState = {};
-	      var newValue = Array.from(e.target.selectedOptions, function (option) {
-	        return option.value;
-	      });
-	      newState["".concat(e.target.name, "Filter")] = newValue;
-	      this.props.handler(newState);
+	    value: function handleFilterChange(reference) {
+	      var _this2 = this;
+
+	      return function (e) {
+	        var newState = {};
+	        var newValue = Array.from(e.target.selectedOptions, function (option) {
+	          return option.value;
+	        });
+	        newState[reference] = newValue;
+
+	        _this2.props.handler(newState);
+	      };
 	    }
 	  }, {
 	    key: "render",
 	    value: function render() {
 	      return React$1__default.createElement("section", {
 	        id: "filter"
-	      }, React$1__default.createElement("h2", null, "Filter data"), React$1__default.createElement("form", null, React$1__default.createElement("fieldset", null, React$1__default.createElement("label", {
-	        htmlFor: "region"
-	      }, "Region"), React$1__default.createElement("select", {
+	      }, React$1__default.createElement("h2", null, "Filter data"), React$1__default.createElement("form", null, React$1__default.createElement(FilterBlock, {
 	        name: "region",
-	        multiple: true,
+	        options: regions,
 	        value: this.props.selected.region,
-	        onChange: this.handleFilterChange
-	      }, React$1__default.createElement("option", {
-	        value: "E12000001"
-	      }, "North East"), React$1__default.createElement("option", {
-	        value: "E12000002"
-	      }, "North West"), React$1__default.createElement("option", {
-	        value: "E12000003"
-	      }, "Yorkshire and The Humber"))), React$1__default.createElement("fieldset", null, React$1__default.createElement("label", {
-	        htmlFor: "region"
-	      }, "Sector"), React$1__default.createElement("select", {
+	        handler: this.handleFilterChange('regionFilter')
+	      }), React$1__default.createElement(FilterBlock, {
 	        name: "sector",
-	        multiple: true,
+	        options: sectors,
 	        value: this.props.selected.sector,
-	        onChange: this.handleFilterChange
-	      }, React$1__default.createElement("option", {
-	        value: "Construction, Planning and the Built Environment"
-	      }, "Construction, Planning and the Built Environment"), React$1__default.createElement("option", {
-	        value: "Engineering and Manufacturing Technologies"
-	      }, "Engineering and Manufacturing Technologies")))));
+	        handler: this.handleFilterChange('sectorFilter')
+	      })));
 	    }
 	  }]);
 
