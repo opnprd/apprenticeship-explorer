@@ -901,6 +901,10 @@
 	  value: 'Engineering and Manufacturing Technologies'
 	}];
 
+	function FilterTag(props) {
+	  return React$1__default.createElement("li", null, props.name);
+	}
+
 	function FilterBlock(props) {
 	  var options = props.options.map(function (_, i) {
 	    return React$1__default.createElement("option", {
@@ -908,14 +912,25 @@
 	      value: _.value
 	    }, _.name);
 	  });
-	  return React$1__default.createElement("fieldset", null, React$1__default.createElement("label", {
+	  var tags = props.value.map(function (_, i) {
+	    return React$1__default.createElement(FilterTag, {
+	      key: i,
+	      name: _
+	    });
+	  });
+	  return React$1__default.createElement("fieldset", {
+	    id: props.name,
+	    className: "filter-block"
+	  }, React$1__default.createElement("label", {
 	    htmlFor: props.name
-	  }, props.name), React$1__default.createElement("select", {
+	  }, props.title), React$1__default.createElement("select", {
 	    name: props.name,
 	    multiple: true,
 	    value: props.value,
 	    onChange: props.handler
-	  }, options));
+	  }, options), React$1__default.createElement("ul", {
+	    className: "tag-cloud"
+	  }, tags));
 	}
 
 	var Filter =
@@ -954,11 +969,13 @@
 	      return React$1__default.createElement("section", {
 	        id: "filter"
 	      }, React$1__default.createElement("h2", null, "Filter data"), React$1__default.createElement("form", null, React$1__default.createElement(FilterBlock, {
+	        title: "Region",
 	        name: "region",
 	        options: regions,
 	        value: this.props.selected.region,
 	        handler: this.handleFilterChange('regionFilter')
 	      }), React$1__default.createElement(FilterBlock, {
+	        title: "Sector",
 	        name: "sector",
 	        options: sectors,
 	        value: this.props.selected.sector,

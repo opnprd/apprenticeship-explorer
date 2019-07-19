@@ -11,14 +11,19 @@ const sectors = [
   { name: 'Engineering and Manufacturing Technologies', value: 'Engineering and Manufacturing Technologies' }
 ]
 
+function FilterTag (props) {
+  return <li>{ props.name }</li>
+}
+
 function FilterBlock (props) {
   const options = props.options.map((_, i) => (<option key={ i } value={ _.value }>{ _.name }</option>));
-
-  return <fieldset>
-    <label htmlFor={ props.name }>{ props.name }</label>
+  const tags = props.value.map((_, i) => (<FilterTag key={ i } name={_} />))
+  return <fieldset id={ props.name } className='filter-block'>
+    <label htmlFor={ props.name }>{ props.title }</label>
     <select name={ props.name } multiple={ true } value={ props.value } onChange={ props.handler }>
       { options }
     </select>
+    <ul className='tag-cloud'>{ tags }</ul>
   </fieldset>;
 }
 
@@ -42,11 +47,13 @@ export default class Filter extends Component {
       <h2>Filter data</h2>
       <form>
         <FilterBlock
+          title='Region'
           name='region'
           options={ regions }
           value={ this.props.selected.region }
           handler={ this.handleFilterChange('regionFilter') } />
         <FilterBlock
+          title='Sector'
           name='sector'
           options={ sectors }
           value={ this.props.selected.sector }

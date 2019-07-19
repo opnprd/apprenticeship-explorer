@@ -56,6 +56,21 @@ header {
   }
 }
 
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.filter-block {
+  li {
+    @include selfColour( $brand-contrast-2 );
+    padding: 0.5em;
+    border-radius: 0.5em;
+    text-align: center;
+  }
+}
+
 form {
   label {
     vertical-align: top;
