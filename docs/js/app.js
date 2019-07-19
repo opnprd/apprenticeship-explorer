@@ -1068,8 +1068,8 @@
 	      filteredData: [],
 	      drill: null,
 	      regionFilter: ['E12000003'],
-	      sectorFilter: null,
-	      genderFilter: null
+	      sectorFilter: [],
+	      genderFilter: []
 	    };
 	    _this.setFilter = _this.setFilter.bind(assertThisInitialized(_this));
 	    return _this;

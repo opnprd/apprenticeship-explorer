@@ -41,8 +41,8 @@ export default class Explorer extends Component {
       filteredData: [],
       drill: null,
       regionFilter: [ 'E12000003' ],
-      sectorFilter: null,
-      genderFilter: null,
+      sectorFilter: [],
+      genderFilter: [],
     }
     this.setFilter = this.setFilter.bind(this);
   }
