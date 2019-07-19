@@ -79,13 +79,13 @@ export default class Explorer extends Component {
         <header dangerouslySetInnerHTML={{ __html: heading }} />
         <section id='summary'>
           <Blob value={ oneNumber } />
-          <Filter
+        </section>
+        <Filter
             selected={{
               region: this.state.regionFilter,
               sector: this.state.sectorFilter
             }}
             handler={ this.setFilter } />
-        </section>
         <section id='control'>
           <p>Show by:</p>
           <button onClick={ () => this.setDrill('SSA T1') }>Sector</button>

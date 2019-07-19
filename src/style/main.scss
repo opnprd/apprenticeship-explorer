@@ -68,6 +68,14 @@ form {
   }
 }
 
+#filter {
+  @extend %centred;
+  max-width: 960px;
+  & > h2 {
+    text-align: center;
+  }
+}
+
 #control {
   display: flex;
   justify-content: center;

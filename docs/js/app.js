@@ -1137,13 +1137,13 @@
 	        id: "summary"
 	      }, React$1__default.createElement(Blob, {
 	        value: oneNumber
-	      }), React$1__default.createElement(Filter, {
+	      })), React$1__default.createElement(Filter, {
 	        selected: {
 	          region: this.state.regionFilter,
 	          sector: this.state.sectorFilter
 	        },
 	        handler: this.setFilter
-	      })), React$1__default.createElement("section", {
+	      }), React$1__default.createElement("section", {
 	        id: "control"
 	      }, React$1__default.createElement("p", null, "Show by:"), React$1__default.createElement("button", {
 	        onClick: function onClick() {
