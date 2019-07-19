@@ -913,7 +913,7 @@
 	    value: function render() {
 	      return React$1__default.createElement("section", {
 	        id: "filter"
-	      }, React$1__default.createElement("h2", null, "Filter data"), React$1__default.createElement("form", null, React$1__default.createElement("label", {
+	      }, React$1__default.createElement("h2", null, "Filter data"), React$1__default.createElement("form", null, React$1__default.createElement("fieldset", null, React$1__default.createElement("label", {
 	        htmlFor: "region"
 	      }, "Region"), React$1__default.createElement("select", {
 	        name: "region",
@@ -926,7 +926,7 @@
 	        value: "E12000002"
 	      }, "North West"), React$1__default.createElement("option", {
 	        value: "E12000003"
-	      }, "Yorkshire and The Humber")), React$1__default.createElement("label", {
+	      }, "Yorkshire and The Humber"))), React$1__default.createElement("fieldset", null, React$1__default.createElement("label", {
 	        htmlFor: "region"
 	      }, "Sector"), React$1__default.createElement("select", {
 	        name: "sector",
@@ -937,7 +937,7 @@
 	        value: "Construction, Planning and the Built Environment"
 	      }, "Construction, Planning and the Built Environment"), React$1__default.createElement("option", {
 	        value: "Engineering and Manufacturing Technologies"
-	      }, "Engineering and Manufacturing Technologies"))));
+	      }, "Engineering and Manufacturing Technologies")))));
 	    }
 	  }]);
 
@@ -1006,7 +1006,7 @@
 	  return _loadJson.apply(this, arguments);
 	}
 
-	var heading = "<h1 id=\"apprenticeship-explorer\">Apprenticeship Explorer</h1>\n<p>The <strong>Apprenticeship Explorer</strong> allows you to delve into the\n<a href=\"https://www.gov.uk/government/statistics/apprenticeships-and-traineeships-july-2019\">Apprenticeship data</a> published by The Department for Education. It&#39;s a work in progress at present, so <a href=\"https://github.com/opnprd/apprenticeship-explorer/issues/new\">feedback is welcomed</a> (free GitHub account required).</p>\n";
+	var heading = "<p>The <strong>Apprenticeship Explorer</strong> allows you to delve into the\n<a href=\"https://www.gov.uk/government/statistics/apprenticeships-and-traineeships-july-2019\">Apprenticeship data</a>\npublished by The Department for Education. It&#39;s a work in progress at present, so\n<a href=\"https://github.com/opnprd/apprenticeship-explorer/issues/new\">feedback is welcomed</a> (free GitHub account\nrequired).</p>\n<p>The number presented is an estimate of the number of apprentices active during academic year 2017/18. This\nis the last full academic year for which we have data. The calculation method is rough at the moment, and\nderived by the following method:</p>\n<ul>\n<li>It&#39;s assumed that apprenticeships are 3 years long</li>\n<li>All active apprentices in the year started in the current and prior two years</li>\n<li>An estimate of dropout rates can be made by taking figures for a year and calculating the number\nof achievements in three year&#39;s time.</li>\n<li>The active population comprises the sum of 3 years adjusted by the dropout rate.</li>\n</ul>\n";
 
 	function onlyUnique(value, index, self) {
 	  return self.indexOf(value) === index;
@@ -1129,7 +1129,8 @@
 	        }, drills);
 	      }
 
-	      return React$1__default.createElement(React$1__default.Fragment, null, React$1__default.createElement("header", {
+	      return React$1__default.createElement(React$1__default.Fragment, null, React$1__default.createElement("header", null, React$1__default.createElement("h1", null, "Apprenticeship Explorer")), React$1__default.createElement("article", {
+	        id: "blurb",
 	        dangerouslySetInnerHTML: {
 	          __html: heading
 	        }

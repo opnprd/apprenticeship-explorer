@@ -27,14 +27,24 @@ body, select {
 }
 
 header {
-  p, h1 {
-    @extend %centred;
-    max-width: 960px;
-    text-align: center;
-    padding-bottom: 0.3em;
-  }
   h1 {
-    font-size: 4em;
+    max-width: 960px;
+    @extend %centred;
+    padding-bottom: 0.3em;
+    text-align: center;
+    font-size: 2.5em;
+  }
+}
+
+#blurb {
+  @extend %centred;
+  max-width: 960px;
+  & > ul, & > p {
+    padding-bottom: 0.5em;
+  }
+  ul {
+    list-style: circle;
+    margin-left: 2em;
   }
 }
 

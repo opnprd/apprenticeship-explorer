@@ -76,7 +76,10 @@ export default class Explorer extends Component {
     }
 
     return <>
-        <header dangerouslySetInnerHTML={{ __html: heading }} />
+        <header>
+          <h1>Apprenticeship Explorer</h1>
+        </header>
+        <article id='blurb' dangerouslySetInnerHTML={{ __html: heading }} />
         <section id='summary'>
           <Blob value={ oneNumber } />
         </section>
