@@ -883,6 +883,17 @@
 
 	var inherits = _inherits;
 
+	function TagCloud(props) {
+	  var tags = props.value.map(function (_, i) {
+	    return React$1__default.createElement("li", {
+	      key: i
+	    }, _);
+	  });
+	  return React$1__default.createElement("ul", {
+	    className: "tag-cloud"
+	  }, tags);
+	}
+
 	var regions = [{
 	  name: 'North East',
 	  value: 'E12000001'
@@ -894,6 +905,9 @@
 	  value: 'E12000003'
 	}];
 	var sectors = [{
+	  name: 'Agriculture, Horticulture and Animal Care',
+	  value: 'Agriculture, Horticulture and Animal Care'
+	}, {
 	  name: 'Construction, Planning and the Built Environment',
 	  value: 'Construction, Planning and the Built Environment'
 	}, {
@@ -901,36 +915,48 @@
 	  value: 'Engineering and Manufacturing Technologies'
 	}];
 
-	function FilterTag(props) {
-	  return React$1__default.createElement("li", null, props.name);
+	function lookupOne(data, key, value) {
+	  return data.filter(function (_) {
+	    return _[key] === value;
+	  })[0];
 	}
 
-	function FilterBlock(props) {
+	function valueToName(reference) {
+	  return function (value) {
+	    return lookupOne(reference, 'value', value).name;
+	  };
+	}
+
+	function Selector(props) {
 	  var options = props.options.map(function (_, i) {
 	    return React$1__default.createElement("option", {
 	      key: i,
 	      value: _.value
 	    }, _.name);
 	  });
-	  var tags = props.value.map(function (_, i) {
-	    return React$1__default.createElement(FilterTag, {
-	      key: i,
-	      name: _
-	    });
-	  });
+	  return React$1__default.createElement("select", {
+	    name: props.name,
+	    multiple: true,
+	    value: props.value,
+	    onChange: props.handler
+	  }, options);
+	}
+
+	function FilterBlock(props) {
+	  var valueNames = props.value.map(valueToName(props.options));
 	  return React$1__default.createElement("fieldset", {
 	    id: props.name,
 	    className: "filter-block"
 	  }, React$1__default.createElement("label", {
 	    htmlFor: props.name
-	  }, props.title), React$1__default.createElement("select", {
+	  }, props.title), React$1__default.createElement(Selector, {
 	    name: props.name,
-	    multiple: true,
 	    value: props.value,
-	    onChange: props.handler
-	  }, options), React$1__default.createElement("ul", {
-	    className: "tag-cloud"
-	  }, tags));
+	    options: props.options,
+	    handler: props.handler
+	  }), React$1__default.createElement(TagCloud, {
+	    value: valueNames
+	  }));
 	}
 
 	var Filter =
