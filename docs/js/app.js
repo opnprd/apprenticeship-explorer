@@ -1290,45 +1290,44 @@
 	  return Explorer;
 	}(React$1.Component);
 
-	function sumKeys(_ref) {
-	  var data = _ref.data,
-	      keys = _ref.keys;
-	  return keys.reduce(function (acc, key) {
-	    return acc + Number.parseFloat(data[key]);
-	  }, 0);
-	}
-	function aggregator(_ref2) {
-	  var data = _ref2.data;
-	  if (data.length === 0) return;
-	  var dataKeys = Object.keys(data[0]).filter(function (_) {
-	    return _.match(/\d{4}.*_(Starts|Achievements)/);
-	  });
-
-	  function summariser(acc, curr) {
-	    dataKeys.forEach(function (key) {
+	function summariser(data) {
+	  return function (acc, curr) {
+	    data.forEach(function (key) {
 	      if (!acc[key]) acc[key] = 0;
 	      acc[key] += Number.parseInt(curr[key]) || 0;
 	    });
 	    return acc;
-	  }
+	  };
+	}
 
-	  var yearly = data.reduce(summariser, {});
-	  var starts = sumKeys({
-	    data: yearly,
-	    keys: ['1516_Starts', '1617_Starts', '1718_Starts']
+	function getKeys(_ref) {
+	  var data = _ref.data,
+	      _ref$index = _ref.index,
+	      index = _ref$index === void 0 ? 0 : _ref$index;
+	  return Object.keys(data[index]).filter(function (_) {
+	    return _.match(/\d{4}.*_(Starts|Achievements)/);
 	  });
-	  var estimatedDropoutRate = sumKeys({
+	}
+
+	function sumKeys(_ref2) {
+	  var data = _ref2.data,
+	      keys = _ref2.keys;
+	  return keys.reduce(function (acc, key) {
+	    return acc + Number.parseFloat(data[key]);
+	  }, 0);
+	}
+	function starts(_ref3) {
+	  var data = _ref3.data,
+	      _ref3$year = _ref3.year,
+	      year = _ref3$year === void 0 ? '1718' : _ref3$year;
+	  if (data.length === 0) return;
+	  var yearly = data.reduce(summariser(getKeys({
+	    data: data
+	  })), {});
+	  return sumKeys({
 	    data: yearly,
-	    keys: ['1617_Achievements', '1718_Achievements']
-	  }) / sumKeys({
-	    data: yearly,
-	    keys: ['1415_Starts', '1516_Starts']
+	    keys: ["".concat(year, "_Starts")]
 	  });
-	  console.dir({
-	    starts: starts,
-	    estimatedDropoutRate: estimatedDropoutRate
-	  });
-	  return Math.round(starts * estimatedDropoutRate);
 	}
 
 	var url = './report.json';
@@ -1339,7 +1338,7 @@
 
 	  ReactDOM.render(React$1__default.createElement(Explorer, {
 	    url: url,
-	    aggregator: aggregator
+	    aggregator: starts
 	  }), document.getElementById(appRootId));
 	}
 

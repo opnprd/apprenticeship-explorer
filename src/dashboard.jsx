@@ -4,11 +4,11 @@ import Explorer from './components/Explorer.jsx';
 
 const url = './report.json'
 
-import aggregator from './utils/aggregator.js';
+import { starts, populationEstimate } from './aggregator/apprentices.js';
 
 export function initialise({ appRootId = 'app' } = {}) {
   ReactDOM.render(
-    <Explorer url={ url } aggregator={ aggregator }/>,
+    <Explorer url={ url } aggregator={ starts }/>,
     document.getElementById(appRootId)
   );
 };
