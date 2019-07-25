@@ -1044,6 +1044,46 @@
 	  });
 	}
 
+	function summariser(data) {
+	  return function (acc, curr) {
+	    data.forEach(function (key) {
+	      if (!acc[key]) acc[key] = 0;
+	      acc[key] += Number.parseInt(curr[key]) || 0;
+	    });
+	    return acc;
+	  };
+	}
+
+	function getKeys(_ref) {
+	  var data = _ref.data,
+	      _ref$index = _ref.index,
+	      index = _ref$index === void 0 ? 0 : _ref$index;
+	  return Object.keys(data[index]).filter(function (_) {
+	    return _.match(/\d{4}.*_(Starts|Achievements)/);
+	  });
+	}
+
+	function sumKeys(_ref2) {
+	  var data = _ref2.data,
+	      keys = _ref2.keys;
+	  return keys.reduce(function (acc, key) {
+	    return acc + Number.parseFloat(data[key]);
+	  }, 0);
+	}
+	function starts(_ref3) {
+	  var data = _ref3.data,
+	      _ref3$year = _ref3.year,
+	      year = _ref3$year === void 0 ? '1718' : _ref3$year;
+	  if (data.length === 0) return;
+	  var yearly = data.reduce(summariser(getKeys({
+	    data: data
+	  })), {});
+	  return sumKeys({
+	    data: yearly,
+	    keys: ["".concat(year, "_Starts")]
+	  });
+	}
+
 	function loadJson(_x) {
 	  return _loadJson.apply(this, arguments);
 	}
@@ -1075,7 +1115,7 @@
 	  return _loadJson.apply(this, arguments);
 	}
 
-	var heading = "<p>The <strong>Apprenticeship Explorer</strong> allows you to delve into the\n<a href=\"https://www.gov.uk/government/statistics/apprenticeships-and-traineeships-july-2019\">Apprenticeship data</a>\npublished by The Department for Education. It&#39;s a work in progress at present, so\n<a href=\"https://github.com/opnprd/apprenticeship-explorer/issues/new\">feedback is welcomed</a> (free GitHub account\nrequired).</p>\n<p>The number presented is an estimate of the number of apprentices active during academic year 2017/18. This\nis the last full academic year for which we have data. The calculation method is rough at the moment, and\nderived by the following method:</p>\n<ul>\n<li>It&#39;s assumed that apprenticeships are 3 years long</li>\n<li>All active apprentices in the year started in the current and prior two years</li>\n<li>An estimate of dropout rates can be made by taking figures for a year and calculating the number\nof achievements in three year&#39;s time.</li>\n<li>The active population comprises the sum of 3 years adjusted by the dropout rate.</li>\n</ul>\n";
+	var heading = "<p>The <strong>Apprenticeship Explorer</strong> allows you to delve into the\n<a href=\"https://www.gov.uk/government/statistics/apprenticeships-and-traineeships-july-2019\">Apprenticeship data</a>\npublished by The Department for Education. It&#39;s a work in progress at present, so\n<a href=\"https://github.com/opnprd/apprenticeship-explorer/issues/new\">feedback is welcomed</a> (free GitHub account\nrequired).</p>\n";
 
 	function onlyUnique(value, index, self) {
 	  return self.indexOf(value) === index;
@@ -1138,7 +1178,8 @@
 	      drill: null,
 	      regionFilter: ['E12000003'],
 	      sectorFilter: [],
-	      genderFilter: []
+	      genderFilter: [],
+	      aggregator: starts
 	    };
 	    _this.setFilter = _this.setFilter.bind(assertThisInitialized(_this));
 	    return _this;
@@ -1173,7 +1214,7 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      var aggregator = this.props.aggregator;
+	      var aggregator = this.state.aggregator;
 	      var oneNumber = aggregator({
 	        data: this.state.filteredData
 	      });
@@ -1290,56 +1331,19 @@
 	  return Explorer;
 	}(React$1.Component);
 
-	function summariser(data) {
-	  return function (acc, curr) {
-	    data.forEach(function (key) {
-	      if (!acc[key]) acc[key] = 0;
-	      acc[key] += Number.parseInt(curr[key]) || 0;
-	    });
-	    return acc;
-	  };
-	}
-
-	function getKeys(_ref) {
-	  var data = _ref.data,
-	      _ref$index = _ref.index,
-	      index = _ref$index === void 0 ? 0 : _ref$index;
-	  return Object.keys(data[index]).filter(function (_) {
-	    return _.match(/\d{4}.*_(Starts|Achievements)/);
+	var apprenticeData = './report.json';
+	function Explorer$1(props) {
+	  return React.createElement(Explorer, {
+	    url: apprenticeData
 	  });
 	}
 
-	function sumKeys(_ref2) {
-	  var data = _ref2.data,
-	      keys = _ref2.keys;
-	  return keys.reduce(function (acc, key) {
-	    return acc + Number.parseFloat(data[key]);
-	  }, 0);
-	}
-	function starts(_ref3) {
-	  var data = _ref3.data,
-	      _ref3$year = _ref3.year,
-	      year = _ref3$year === void 0 ? '1718' : _ref3$year;
-	  if (data.length === 0) return;
-	  var yearly = data.reduce(summariser(getKeys({
-	    data: data
-	  })), {});
-	  return sumKeys({
-	    data: yearly,
-	    keys: ["".concat(year, "_Starts")]
-	  });
-	}
-
-	var url = './report.json';
 	function initialise() {
 	  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
 	      _ref$appRootId = _ref.appRootId,
 	      appRootId = _ref$appRootId === void 0 ? 'app' : _ref$appRootId;
 
-	  ReactDOM.render(React$1__default.createElement(Explorer, {
-	    url: url,
-	    aggregator: starts
-	  }), document.getElementById(appRootId));
+	  ReactDOM.render(React$1__default.createElement(Explorer$1, null), document.getElementById(appRootId));
 	}
 
 	initialise();
