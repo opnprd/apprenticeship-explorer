@@ -1,0 +1,9 @@
+@mixin selfColour ( $colour ) {
+  color: change-color($color: $colour, $lightness: 80%);
+  background-color: $colour;
+  transition: background-color 1s, color 1s;
+  &:hover {
+    color: change-color($color: $colour, $saturation: 50%);
+    background-color: change-color($color: $colour, $lightness: 60%);
+  }
+}

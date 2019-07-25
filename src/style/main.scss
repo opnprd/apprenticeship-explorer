@@ -5,16 +5,8 @@ $brand-contrast-2: hsl(310, 100%, 40%);
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap');
 @import './reset.scss';
-
-@mixin selfColour ( $colour ) {
-  color: change-color($color: $colour, $lightness: 80%);
-  background-color: $colour;
-  transition: background-color 1s, color 1s;
-  &:hover {
-    color: change-color($color: $colour, $saturation: 50%);
-    background-color: change-color($color: $colour, $lightness: 60%);
-  }
-}
+@import './mixins.scss';
+@import './tag-cloud.scss';
 
 %centred {
   display: block;
@@ -56,18 +48,9 @@ header {
   }
 }
 
-.tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
 .filter-block {
   li {
     @include selfColour( $brand-contrast-2 );
-    padding: 0.5em;
-    border-radius: 0.5em;
-    text-align: center;
   }
 }
 
