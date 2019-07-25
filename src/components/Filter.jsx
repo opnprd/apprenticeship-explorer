@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import TagCloud from './TagCloud.jsx';
 
-const regions = [
-  { name: 'North East', value: 'E12000001' },
-  { name: 'North West', value: 'E12000002' },
-  { name: 'Yorkshire and The Humber', value: 'E12000003' }
-]
+import { regions } from '../utils/geo.js';
 
 const sectors = [
   { name: 'Agriculture, Horticulture and Animal Care', value: 'Agriculture, Horticulture and Animal Care' },

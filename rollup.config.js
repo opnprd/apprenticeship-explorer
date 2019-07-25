@@ -5,6 +5,7 @@ import copy from 'rollup-plugin-copy';
 import scss from 'rollup-plugin-scss';
 // import url from 'rollup-plugin-url';
 import md from 'rollup-plugin-md';
+import json from 'rollup-plugin-json';
 
 const targetDir = 'docs';
 
@@ -59,6 +60,7 @@ const jsPlugins = [
   }),
   // url(),
   md(),
+  json(),
 ];
 
 export default [
